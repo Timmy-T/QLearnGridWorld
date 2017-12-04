@@ -17,16 +17,12 @@ if __name__ == '__main__':
             tinnyT.updatePos(xPos, yPos)
             break
 
-    totalReward = 0
     for i in range(NUM_OF_ITERATIONS):
         direction = tinnyT.getDirection()
         reward, xPos, yPos = basement.timeStep(tinnyT.xPos, tinnyT.yPos, direction)
-        print(reward, xPos, yPos, sep="\t")
         tinnyT.updateReward(xPos, yPos, direction, reward)
-        totalReward += reward
-
         tinnyT.updatePos(xPos, yPos)
 
 
     tinnyT.printMemory()
-    print(totalReward)
+    basement.printArrowMap(tinnyT.memory)

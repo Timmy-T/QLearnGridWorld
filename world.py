@@ -35,13 +35,13 @@ class world:
 
         # Check to make sure move was successful
         if moveSuccess:
-            xPos, yPos = self.calculatePos(xPos, yPos, dir)
+            xPos, yPos = calculatePos(xPos, yPos, dir)
 
         return reward, xPos, yPos
 
     def posReward(self, xPos, yPos, dir):
         # Gets new position
-        xPos, yPos = self.calculatePos(xPos, yPos, dir)
+        xPos, yPos = calculatePos(xPos, yPos, dir)
 
         # Gets a donut
         if(yPos, xPos) == self.donutPos and self.donutSet:
@@ -77,15 +77,39 @@ class world:
 
                 self.donutSet = True
 
+    def printArrowMap(self, memory):
+        for i in range(0,10):
+            for j in range(0,10):
+                yPos, xPos = j, i
 
-    def calculatePos(self, xPos, yPos, dir):
-        if dir == "UP":
-            yPos += 1
-        elif dir == "DOWN":
-            yPos -= 1
-        elif dir == "LEFT":
-            xPos -= 1
-        elif dir == "RIGHT":
-            xPos += 1
+                if self.map[yPos][xPos] == "W":
+                    print("W", end="")
+                else:
+                    rewards = memory[(yPos, xPos)]
 
-        return xPos, yPos
+                    maxValue = max(rewards)
+                    maxIndex =[k for k, x in enumerate(rewards) if x == maxValue]
+
+                    if len(maxIndex) > 2:
+                        print("_", end="")
+                    else:
+                        if maxIndex[0] == 0:
+                            print("\u2191", end="")
+                        elif maxIndex[0] == 1:
+                            print("\u2193", end="")
+                        elif maxIndex[0] == 2:
+                            print("\u2190", end="")
+                        elif maxIndex[0] == 3:
+                            print("\u2192", end="")
+            print(" ")
+def calculatePos(xPos, yPos, dir):
+    if dir == "UP":
+        yPos += 1
+    elif dir == "DOWN":
+        yPos -= 1
+    elif dir == "LEFT":
+        xPos -= 1
+    elif dir == "RIGHT":
+        xPos += 1
+
+    return xPos, yPos

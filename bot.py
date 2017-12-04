@@ -1,4 +1,5 @@
 import random
+from world import calculatePos
 
 FAIL_CHANCE = 18
 LEARNING_RATE = .01
@@ -44,21 +45,28 @@ class bot:
         else:
             return directionPicked
 
-    def directionToNumber(self, dir):
-        if dir == "UP":
+    def directionToNumber(self, direction):
+        if direction == "UP":
             return 0
-        elif dir == "DOWN":
+        elif direction == "DOWN":
             return 1
-        elif dir == "LEFT":
+        elif direction == "LEFT":
             return 2
-        elif dir == "RIGHT":
+        elif direction == "RIGHT":
             return 3
 
     def updateReward(self, xPos, yPos, direction, reward):
         memory = self.memory[(yPos, xPos)]
-        memory[self.directionToNumber(direction)] = (1- LEARNING_RATE) * reward + LEARNING_RATE * (reward + DISCOUNT_FACTOR * 10 )
+        value = memory[self.directionToNumber(direction)]
+        value =  value + LEARNING_RATE * (reward + DISCOUNT_FACTOR * self.getMax(xPos, yPos, direction) - value)
+        memory[self.directionToNumber(direction)] = value
 
         self.memory[(yPos, xPos)] = memory
+
+
+    def getMax(self, xPos, yPos, direction):
+        xPos, yPos = calculatePos(xPos, yPos, direction)
+        return max(self.memory[(yPos, xPos)])
 
 
     def printMemory(self):
