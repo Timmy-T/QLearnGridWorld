@@ -90,7 +90,7 @@ class world:
                     maxValue = max(rewards)
                     maxIndex =[k for k, x in enumerate(rewards) if x == maxValue]
 
-                    if len(maxIndex) > 2:
+                    if len(maxIndex) >= 2:
                         print("_", end="")
                     else:
                         if maxIndex[0] == 0:
