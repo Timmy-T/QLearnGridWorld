@@ -1,6 +1,8 @@
 import random
 
 FAIL_CHANCE = 18
+LEARNING_RATE = .01
+DISCOUNT_FACTOR = .01
 
 class bot:
     def __init__(self):
@@ -24,11 +26,25 @@ class bot:
         self.xPos = xPos
         self.yPos = yPos
 
-    def getDir(self):
+    def getDirection(self):
         direction = ["UP", "DOWN", "LEFT", "RIGHT"]
-        return random.choice(direction)
 
-    def directionNumber(self, dir):
+        rewards = self.memory[(self.yPos, self.xPos)]
+
+        # In case of multiple directions with the same reward
+        maxValue = max(rewards)
+        maxIndex =[i for i, x in enumerate(rewards) if x == maxValue]
+
+        directionPicked = direction[random.choice(maxIndex)]
+
+        # Check if he fails to move the selected direction
+        if FAIL_CHANCE >= random.randint(1,100):
+            direction.remove(directionPicked)
+            return  random.choice(direction)
+        else:
+            return directionPicked
+
+    def directionToNumber(self, dir):
         if dir == "UP":
             return 0
         elif dir == "DOWN":
@@ -39,10 +55,10 @@ class bot:
             return 3
 
     def updateReward(self, xPos, yPos, direction, reward):
-        tempList = self.memory[(yPos, xPos)]
-        tempList[self.directionNumber(direction)] += reward
+        memory = self.memory[(yPos, xPos)]
+        memory[self.directionToNumber(direction)] = (1- LEARNING_RATE) * reward + LEARNING_RATE * (reward + DISCOUNT_FACTOR * 10 )
 
-        self.memory[(yPos, xPos)] = tempList
+        self.memory[(yPos, xPos)] = memory
 
 
     def printMemory(self):

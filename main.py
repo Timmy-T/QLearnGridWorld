@@ -3,8 +3,7 @@ import math
 from bot import *
 from world import *
 
-
-NUM_OF_ITERATIONS = 100000
+NUM_OF_ITERATIONS = 10000000
 
 if __name__ == '__main__':
     tinnyT = bot()
@@ -20,7 +19,7 @@ if __name__ == '__main__':
 
     totalReward = 0
     for i in range(NUM_OF_ITERATIONS):
-        direction = tinnyT.getDir()
+        direction = tinnyT.getDirection()
         reward, xPos, yPos = basement.timeStep(tinnyT.xPos, tinnyT.yPos, direction)
         print(reward, xPos, yPos, sep="\t")
         tinnyT.updateReward(xPos, yPos, direction, reward)
@@ -30,3 +29,4 @@ if __name__ == '__main__':
 
 
     tinnyT.printMemory()
+    print(totalReward)
