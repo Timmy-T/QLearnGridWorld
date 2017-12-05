@@ -1,9 +1,10 @@
 from bot import *
 from world import *
 
-NUM_OF_ITERATIONS = 100000000
+NUM_OF_ITERATIONS = 10000000
 
 if __name__ == '__main__':
+
     tinnyT = bot()
     basement = world()
 
