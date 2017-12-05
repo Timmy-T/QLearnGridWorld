@@ -108,11 +108,11 @@ class world:
         :return: None
         """
         for i in range(0, 10):
+            yPos = i
             for j in range(0, 10):
-                yPos, xPos = j, i
-
+                xPos = j
                 if self.map[yPos][xPos] == "W":
-                    print("W", end="")
+                    print(" W ", end="")
                 else:
                     rewards = memory[(yPos, xPos)]
 
@@ -120,16 +120,16 @@ class world:
                     maxIndex = [k for k, x in enumerate(rewards) if x == maxValue]
 
                     if len(maxIndex) >= 2:
-                        print("_", end="")
+                        print(" _ ", end="")
                     else:
                         if maxIndex[0] == 0:
-                            print("\u2191", end="")
+                            print(" \u2191 ", end="")
                         elif maxIndex[0] == 1:
-                            print("\u2193", end="")
+                            print(" \u2193 ", end="")
                         elif maxIndex[0] == 2:
-                            print("\u2190", end="")
+                            print(" \u2190 ", end="")
                         elif maxIndex[0] == 3:
-                            print("\u2192", end="")
+                            print(" \u2192 ", end="")
             print(" ")
 
     def printValueMap(self, memory):
@@ -139,15 +139,22 @@ class world:
         :return: None
         """
         for i in range(0, 10):
+            yPos = i
             for j in range(0, 10):
-                yPos, xPos = j, i
-
+                xPos = j
                 if self.map[yPos][xPos] == "W":
-                    print("  WWW  ", end="")
+                    print("   WWWW   ", end="\t")
                 else:
-                    rewards = memory[(yPos, xPos)]
-                    maxValue = max(rewards)
-                    print(" %.2f " % round(maxValue, 2), end="")
+                    temp = '{: .3e}'.format((max(memory[(yPos, xPos)])))
+                    print(temp, end="\t")
+            print(" ")
+
+
+    def printRewardMatrix(self, memory):
+        for i in range(0, 10):
+            for j in range(0, 10):
+                temp ='{: .3e}'.format((max(memory[(i, j)])))
+                print(temp, end="\t")
             print(" ")
 
 
