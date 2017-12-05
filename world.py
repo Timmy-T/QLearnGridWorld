@@ -102,6 +102,20 @@ class world:
                         elif maxIndex[0] == 3:
                             print("\u2192", end="")
             print(" ")
+
+    def printValueMap(self, memory):
+        for i in range(0, 10):
+            for j in range(0, 10):
+                yPos, xPos = j, i
+
+                if self.map[yPos][xPos] == "W":
+                    print("  WWW  ", end="")
+                else:
+                    rewards = memory[(yPos, xPos)]
+                    maxValue = max(rewards)
+                    print(" %.2f " % round(maxValue, 2), end="")
+            print(" ")
+
 def calculatePos(xPos, yPos, dir):
     if dir == "UP":
         yPos += 1

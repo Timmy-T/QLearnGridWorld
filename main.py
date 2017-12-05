@@ -3,7 +3,7 @@ import math
 from bot import *
 from world import *
 
-NUM_OF_ITERATIONS = 10000000
+NUM_OF_ITERATIONS = 100000000
 
 if __name__ == '__main__':
     tinnyT = bot()
@@ -24,5 +24,5 @@ if __name__ == '__main__':
         tinnyT.updatePos(xPos, yPos)
 
 
-    tinnyT.printMemory()
+    basement.printValueMap(tinnyT.memory)
     basement.printArrowMap(tinnyT.memory)
